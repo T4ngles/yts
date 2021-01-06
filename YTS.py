@@ -27,7 +27,7 @@ def generate_scrapped_list():
 			a = link.get('href')	
 			if (a[:6] == '/watch') and i <= int(max_dls) and link.get('title'):# and os.path.isfile( link.get('title')):
 				try:
-				    print ('[Link ' + str(i) +'] - ' + (link.get('title')))
+				    print ('[Link ' + str(i) +'] - ' + (link.get('title')) + 'Length' + 'lengthplaceholder')
 				except UnicodeEncodeError:
 					   print ('[Link ' + str(i) +'] - UnicodeEncodeError')
 				scrapped_list.append([page,i,'https://www.youtube.com' + a,(link.get('title'))])
