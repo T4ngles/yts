@@ -3,7 +3,7 @@ import os
 from bs4 import BeautifulSoup
 import urllib.request
 from datetime import datetime
-#import glob
+import glob
 from threading import Timer
 
 #insert current files into array for checking
