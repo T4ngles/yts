@@ -5,6 +5,7 @@ import urllib.request
 from datetime import datetime
 import glob
 from threading import Timer
+import re
 
 #insert current files into array for checking
 #for filenames in os.walk('/home/dragonite/Videos/YTS_files'):
@@ -17,12 +18,25 @@ def generate_scrapped_list():
 	print ('==============Scraping started at:' + str(datetime.now().time()))	
 	for page in range(1,int(pageNo)+1):
 		print('###########Page ' + str(page) +'#############' + str(datetime.now().time()))
-		url = "https://www.youtube.com/results?search_query=" + search2 +"&page=" + str(page) +"&utm_source=opensearch"
+		url = "https://www.youtube.com/results?search_query=" + search2 +"&page=" + str(page) +"&utm_source=opensearch" #youtube website doesn't use pagination anymore, how to query through more results?
 		print('url page:' + url)
 		content = urllib.request.urlopen(url).read()
 		soup = BeautifulSoup(content, 'lxml') #lxml is the default HTML parser can check for new ones		
 
 		i =1	#link number
+
+		#update for youtube new source
+		soup.find_all(string=re.compile('url'))
+		for link in soup.find_all(string=re.compile('watch\?v=')):	#beautiful soup used to extract the tagged section which includes the youtube url link sub string watch?v=
+		    print( link[ ( link.find('watch')-1 ) : ( link.find('watch')+19)] )
+
+
+			for i, title in enumerate(re.findall('(\"title\"\:\{\"runs\"\:\[\{\"text\"\:")(.*?\")(.*?)(/watch\?v=.*?)(?=\")', foo )):	#use regex findall to return list of groups specified within ( ) matching expression. first group is for title tags, second for title text, third for other code until url, fourth for url. 
+				print("Link"+str(i)+":",title[1],"URL: ", "https://www.youtube.com"+title[3])
+
+
+
+
 		for link in soup.find_all('a'):
 			a = link.get('href')	
 			if (a[:6] == '/watch') and i <= int(max_dls) and link.get('title'):# and os.path.isfile( link.get('title')):
