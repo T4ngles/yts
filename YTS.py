@@ -20,7 +20,7 @@ def generate_scrapped_list():
 		print('###########Page ' + str(page) +'#############' + str(datetime.now().time()))
 		url = "https://www.youtube.com/results?search_query=" + search2 +"&page=" + str(page) +"&utm_source=opensearch" #youtube website doesn't use pagination anymore, how to query through more results?
 		print('url page:' + url)
-		content = urllib.request.urlopen(url).read()
+		content = urllib.request.urlopen(url).read()[150000:-35000]
 		soup = BeautifulSoup(content, 'lxml') #lxml is the default HTML parser can check for new ones		
 
 		i =1	#link number
