@@ -117,7 +117,7 @@ if __name__ == '__main__':
 	if dltype== "3":
 	    playboolaudio = True
 	    
-	max_dls = 20#input("Max Downloads per Page:")	#20 is max
+	max_dls = 40#input("Max Downloads per Page:")	#20 is max
 	pageNo = input("Max Pages:")
 	startTime = 0#input("Delay in minutes:") #delay before scraper starts
 
