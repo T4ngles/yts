@@ -23,29 +23,17 @@ def generate_scrapped_list():
 		content = urllib.request.urlopen(url).read()[150000:-35000]
 		soup = BeautifulSoup(content, 'lxml') #lxml is the default HTML parser can check for new ones		
 
-		i =1	#link number
-
 		#update for youtube new source
-		soup.find_all(string=re.compile('url'))
-		for link in soup.find_all(string=re.compile('watch\?v=')):	#beautiful soup used to extract the tagged section which includes the youtube url link sub string watch?v=
-		    print( link[ ( link.find('watch')-1 ) : ( link.find('watch')+19)] )
-
-
-			for i, title in enumerate(re.findall('(\"title\"\:\{\"runs\"\:\[\{\"text\"\:")(.*?\")(.*?)(/watch\?v=.*?)(?=\")', foo )):	#use regex findall to return list of groups specified within ( ) matching expression. first group is for title tags, second for title text, third for other code until url, fourth for url. 
-				print("Link"+str(i)+":",title[1],"URL: ", "https://www.youtube.com"+title[3])
-
-
-
-
-		for link in soup.find_all('a'):
-			a = link.get('href')	
-			if (a[:6] == '/watch') and i <= int(max_dls) and link.get('title'):# and os.path.isfile( link.get('title')):
-				try:
-				    print ('[Link ' + str(i) +'] - ' + (link.get('title')) + 'Length' + 'lengthplaceholder')
-				except UnicodeEncodeError:
-					   print ('[Link ' + str(i) +'] - UnicodeEncodeError')
-				scrapped_list.append([page,i,'https://www.youtube.com' + a,(link.get('title'))])
-				i +=1
+		#beautiful soup used to extract the tagged section which includes the youtube url link sub string watch?v= within the javascript tags
+		for link in soup.find_all(string=re.compile('watch\?v=')):
+			#print( link[ ( link.find('watch')-1 ) : ( link.find('watch')+19)] )
+			#use regex findall to return list of groups specified within ( ) matching expression. first group is for title tags, second for title text, third for other code until url, fourth for url.
+			#for i, title in enumerate(re.findall('(\"title\"\:\{\"runs\"\:\[\{\"text\"\:")(.*?\")(.*?)(/watch\?v=.*?)(?=\")', link )):
+			rex_2 = '(\"title.+?)(?<=text\"\:\")(.+?)(?=\")(.+?)(?<=TimeText\"\:{\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=seconds\"}},\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=watch\?v=)(.+?)(?=\")'
+			for i, title in enumerate(re.findall(rex_2, link )):
+				print("Link"+str(i+1)+":",title[1],'|',title[3],'|',title[5],'|',title[7]) #"URL: ", "https://www.youtube.com"+title[3])
+				scrapped_list.append([page,i+1,'https://www.youtube.com/watch?v=' + title[7],title[1]])
+				
 	print('++++++++finished search result: ' + search+ ' ++++++++')
 	return scrapped_list
 
