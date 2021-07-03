@@ -29,11 +29,42 @@ def generate_scrapped_list():
 			#print( link[ ( link.find('watch')-1 ) : ( link.find('watch')+19)] )
 			#use regex findall to return list of groups specified within ( ) matching expression. first group is for title tags, second for title text, third for other code until url, fourth for url.
 			#for i, title in enumerate(re.findall('(\"title\"\:\{\"runs\"\:\[\{\"text\"\:")(.*?\")(.*?)(/watch\?v=.*?)(?=\")', link )):
-			rex_2 = '(\"title.+?)(?<=text\"\:\")(.+?)(?=\")(.+?)(?<=TimeText\"\:{\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=seconds\"}},\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=watch\?v=)(.+?)(?=\")'
+			#rex_2 = '(\"title.+?)(?<=text\"\:\")(.+?)(?=\")(.+?)(?<=TimeText\"\:{\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=seconds\"}},\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=watch\?v=)(.+?)(?=\")'
+			rex_2 = '(\"title.+?)(?<=text\"\:\")(.+?)(?=\")(.+?)(?<=TimeText\"\:{\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=\"}},\"simpleText\"\:\")(.+?)(?=\")(.+?)(?<=watch\?v=)(.+?)(?=\")'
+			#0 '(\"title.+?)(?<=text\"\:\")
+			#1 (.+?)(?=\") title
+			#2 (.+?)(?<=TimeText\"\:{\"simpleText\"\:\")
+			#3 (.+?)(?=\") publish date
+			#4 (.+?)(?<=seconds\"}},\"simpleText\"\:\")
+			#5 (.+?)(?=\") time
+			#6 (.+?)(?<=watch\?v=)
+			#7 (.+?)(?=\")' link
+			
 			for i, title in enumerate(re.findall(rex_2, link )):
-				print("Link"+str(i+1)+":",title[1],'|',title[3],'|',title[5],'|',title[7]) #"URL: ", "https://www.youtube.com"+title[3])
-				scrapped_list.append([page,i+1,'https://www.youtube.com/watch?v=' + title[7],title[1]])
-				
+				if time != "":
+					if int(time) == 1 and int(title[5][0]) < 2 and len(title[5])<5 and title[1] not in scrapped_list:
+						print("Link"+str(i+1)+":",title[1],'|',title[3],'|',title[5],'|',title[7]) #"URL: ", "https://www.youtube.com"+title[3])
+						# print('#### index 0',title[0])
+						# print('#### index 1',title[1])
+						# print('#### index 2',title[2])
+						# print('#### index 3',title[3])
+						# print('#### index 4',title[4])
+						# print('#### index 5',title[5])
+						# print('#### index 7',title[7])
+						scrapped_list.append([page,i+1,'https://www.youtube.com/watch?v=' + title[7],title[1]])
+
+					if int(time) == 2 and int(title[5][0]) > 2 and len(title[5])<5 and title[1] not in [x[3] for x in scrapped_list]:
+						print("Link"+str(i+1)+":",title[1],'|',title[3],'|',title[5],'|',title[7])
+						scrapped_list.append([page,i+1,'https://www.youtube.com/watch?v=' + title[7],title[1]])
+
+					if int(time) == 3 and len(title[5])>=5 and title[1] not in [x[3] for x in scrapped_list]:
+						print("Link"+str(i+1)+":",title[1],'|',title[3],'|',title[5],'|',title[7])
+						scrapped_list.append([page,i+1,'https://www.youtube.com/watch?v=' + title[7],title[1]])
+
+				elif title[1] not in [x[3] for x in scrapped_list]:					
+					print("Link"+str(i+1)+":",title[1],'|',title[3],'|',title[5],'|',title[7])
+					scrapped_list.append([page,i+1,'https://www.youtube.com/watch?v=' + title[7],title[1]])
+						
 	print('++++++++finished search result: ' + search+ ' ++++++++')
 	return scrapped_list
 
