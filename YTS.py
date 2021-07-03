@@ -13,12 +13,12 @@ import re
 #glob???
 #youtube-dl currently checks files in the output directory for duplicates already
 
-def generate_scrapped_list():
+def generate_scrapped_list(time):
 	scrapped_list = []
 	print ('==============Scraping started at:' + str(datetime.now().time()))	
 	for page in range(1,int(pageNo)+1):
 		print('###########Page ' + str(page) +'#############' + str(datetime.now().time()))
-		url = "https://www.youtube.com/results?search_query=" + search2 +"&page=" + str(page) +"&utm_source=opensearch" #youtube website doesn't use pagination anymore, how to query through more results?
+		url = "https://www.youtube.com/results?search_query=" + search2 +"&page=" + str(page) + timemod #"&utm_source=opensearch"+ #youtube website doesn't use pagination anymore, how to query through more results?
 		print('url page:' + url)
 		content = urllib.request.urlopen(url).read()[150000:-35000]
 		soup = BeautifulSoup(content, 'lxml') #lxml is the default HTML parser can check for new ones		
@@ -123,7 +123,8 @@ if __name__ == '__main__':
 	search = input("Search for:")
 	search2 = search.replace(" ","+")    
 	dltype = input("1:audioconvert, 2:playlist, 3:audio playlist")
-
+	time = input("1:short, 2:long, 3:super long")
+	timemod = ""
 	dlbool = False
 	mp3bool = False
 	playbool = False
@@ -135,12 +136,14 @@ if __name__ == '__main__':
 	    playbool = True
 	if dltype== "3":
 	    playboolaudio = True
+	if time == "2":
+		timemod = "&sp=EgQQARgD"
 	    
 	max_dls = 40#input("Max Downloads per Page:")	#20 is max
 	pageNo = input("Max Pages:")
 	startTime = 0#input("Delay in minutes:") #delay before scraper starts
 
-	scrapped_list = generate_scrapped_list() 
+	scrapped_list = generate_scrapped_list(time) 
 
 	selection_list = generate_selection_list()
 
