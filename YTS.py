@@ -122,7 +122,7 @@ if __name__ == '__main__':
 	print ('==============YTS============ started at:' + str(datetime.now().time()))
 	search = input("Search for:")
 	search2 = search.replace(" ","+")    
-	dltype = input("1:audioconvert, 2:playlist, 3:audio playlist")
+	#dltype = input("1:audioconvert, 2:playlist, 3:audio playlist")
 	time = input("1:short, 2:long, 3:super long")
 	timemod = ""
 	dlbool = False
@@ -130,12 +130,12 @@ if __name__ == '__main__':
 	playbool = False
 	playboolaudio = False
 
-	if dltype== "1":
-	    mp3bool = True
-	if dltype== "2":
-	    playbool = True
-	if dltype== "3":
-	    playboolaudio = True
+	# if dltype== "1":
+	#     mp3bool = True
+	# if dltype== "2":
+	#     playbool = True
+	# if dltype== "3":
+	#     playboolaudio = True
 	if time == "2":
 		timemod = "&sp=EgQQARgD"
 	    
