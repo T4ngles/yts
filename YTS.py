@@ -80,7 +80,7 @@ def generate_selection_list():
 	print(selection_list)
 	return selection_list
 
-def youtubeDownloader(scrapped_list, selection_list):
+def youtubeDownloader(scrapped_list, selection_list, search):
 	if input("Download?") == "y" or "Y":
 		dlbool = True
 	
@@ -97,11 +97,10 @@ def youtubeDownloader(scrapped_list, selection_list):
 					command = 'youtube-dl -x -q --newline -o "./%(title)s.%(ext)s" "' + str(link[2])  + '"' 
 				elif playbool:
 					command = 'youtube-dl --console-title --yes-playlist -q --newline "' + str(link[2])  + '"'
-				elif playboolaudio:
+				elif playboolaudio:  
 					command = 'youtube-dl --yes-playlist -f 133 -q --newline -x --verbose "' + str(link[2])  + '"'
 				else:
-					command = 'youtube-dl -q --console-title -o "./%(title)s.%(ext)s" "' + str(link[2])  + '"'
-
+					command = 'youtube-dl -q --console-title -o "./' + search + '/%(title)s.%(ext)s" "' + str(link[2])  + '"'
 				#command = 'youtube-dl -q --yes-playlist ' + str(page)
 
 				#print(command)
@@ -110,7 +109,7 @@ def youtubeDownloader(scrapped_list, selection_list):
 				if dlbool: #check if want to download
 					os.system(command) #for linux
 
-		print('++++++++finished search result: ' + search+ ' ++++++++')
+		print('++++++++finished search result: ' + search + ' ++++++++')
 	
 
 
@@ -147,7 +146,9 @@ if __name__ == '__main__':
 
 	selection_list = generate_selection_list()
 
-	main_fun = lambda: youtubeDownloader(scrapped_list, selection_list)
+	#os.mkdir("./" + search2)
+
+	main_fun = lambda: youtubeDownloader(scrapped_list, selection_list, search)
 
 	print ('It is currently:' + str(datetime.now().time()))
 	print ('waiting ' + str(float(startTime)) + ' minutes' )
