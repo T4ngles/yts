@@ -6,6 +6,7 @@ from datetime import datetime
 import glob
 from threading import Timer
 import re
+from yt_dlp import YoutubeDL
 
 #insert current files into array for checking
 #for filenames in os.walk('/home/dragonite/Videos/YTS_files'):
@@ -107,7 +108,8 @@ def youtubeDownloader(scrapped_list, selection_list, search):
 				#print(dlbool)
 				#os.system('cd C:\Python\Python35-32\Lib\site-packages & ' + command) #for windows
 				if dlbool: #check if want to download
-					os.system(command) #for linux
+					YoutubeDL().download(str(link[2]))
+					#os.system(command) #for linux
 
 		print('++++++++finished search result: ' + search + ' ++++++++')
 	
