@@ -1,2 +1,5 @@
-# ignore video files
+# ignore media files
 *.mp4
+*.webm
+*.mkv
+*.opus
