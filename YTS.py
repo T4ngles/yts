@@ -17,9 +17,9 @@ from yt_dlp import YoutubeDL
 def link_add(i: int, page: int, title: tuple, scrapped_list: list ):
 	assert isinstance(title, tuple)
 
-	if dltype == "1":
+	if dltype == "1" or dltype == "":
 
-		print(">>>>Link"+str(i+1)+":",
+		print("----Link"+str(i+1)+":",
 							title[1],'|', #Video Title
 							title[3],'|', #Publish Date
 							title[5],'|') #Video Duration
@@ -38,7 +38,7 @@ def generate_scrapped_list(timeRequest):
 		print('###########Page ' + str(page) +'#############' + str(datetime.now().time()))
 		url = "https://www.youtube.com/results?search_query=" + search2 + "&page=" + str(page) + mod #"&utm_source=opensearch"+ #youtube website doesn't use pagination anymore, how to query through more results?
 		print('url page:' + url)
-		content = urllib.request.urlopen(url).read()[150000:-35000]
+		content = urllib.request.urlopen(url).read()[100000:-35000]
 		soup = BeautifulSoup(content, 'lxml') #lxml is the default HTML parser can check for new ones		
 
 		#update for youtube new source
@@ -149,14 +149,14 @@ if __name__ == '__main__':
 
 	dltype = input("1:audioconvert, 2:playlist, 3:audioconvert playlist")
 
-	if dltype== "1":
-	    mp3bool = True
-	if dltype== "2":
-	    playbool = True
-	    mod = "&sp=EgIQAw%253D%253D"
-	if dltype== "3":
-	    playboolaudio = True	    
-	    mod = "&sp=EgIQAw%253D%253D"
+	if dltype == "1":
+		mp3bool = True
+	if dltype == "2":
+		playbool = True
+		mod = "&sp=EgIQAw%253D%253D"
+	if dltype == "3":
+		playboolaudio = True
+		mod = "&sp=EgIQAw%253D%253D"
 
 	if dltype == "1":
 
@@ -168,11 +168,8 @@ if __name__ == '__main__':
 			mod = "&sp=EgQQARgD"
 		if timeRequest == "3":
 			mod = "&sp=EgQQARgC"
-
 	
-
-	
-	
+	print(f"dltype:{dltype}")
 	    
 	max_dls = 40#input("Max Downloads per Page:")	#20 is max
 	pageNo = input("Max Pages:")
