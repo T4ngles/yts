@@ -74,13 +74,13 @@ def generate_scrapped_list(timeRequest):
 				#if a duration was requested
 				if timeRequest != "":
 					if int(timeRequest) == 1 and int(title[5][0]) < 2 and len(title[5])<5 and title[1] not in scrapped_list:
-						link_add(i,title,scrapped_list)						
+						link_add(i,page,title,scrapped_list)						
 
 					if int(timeRequest) == 2 and int(title[5][0]) > 2 and len(title[5])<5 and title[1] not in [x[3] for x in scrapped_list]:
-						link_add(i,title,scrapped_list)
+						link_add(i,page,title,scrapped_list)
 
 					if int(timeRequest) == 3 and len(title[5])>=5 and title[1] not in [x[3] for x in scrapped_list]:
-						link_add(i,title,scrapped_list)
+						link_add(i,page,title,scrapped_list)
 
 				elif title[1] not in [x[3] for x in scrapped_list]:					
 					link_add(i,page,title,scrapped_list)	
@@ -160,7 +160,7 @@ if __name__ == '__main__':
 
 	if dltype == "1":
 
-		timeRequest = input("1:short, 2:long, 3:super long")
+		timeRequest = input("1:short(<2mins), 2:long(>2mins), 3:super long(10mins or longer)")
 
 		if timeRequest == "1":
 			mod = "&sp=EgQQARgB"
